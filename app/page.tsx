@@ -865,7 +865,7 @@ export default function Home() {
     <main className="mx-auto flex h-screen w-full max-w-screen-md flex-col justify-between overflow-hidden">
       <div className="flex justify-between px-4 pb-2 pr-2 pt-10 max-md:pt-4 max-sm:pr-2 max-sm:pt-4">
         <div className="flex flex-row text-xl leading-8 text-red-400 max-sm:text-base">
-          <div className="ml-2 font-bold leading-10 max-sm:ml-1 max-sm:leading-8">Molly Factory</div>
+          <div className="ml-2 font-bold leading-10 max-sm:ml-1 max-sm:leading-8"></div>
         </div>
         <div className="flex items-center gap-1">
           <ThemeToggle />
@@ -880,7 +880,7 @@ export default function Home() {
           </Button>
           <Button
             className="h-8 w-8"
-            title={t('setting')}
+            title={t('settings')}
             variant="ghost"
             size="icon"
             onClick={() => setSetingOpen(true)}

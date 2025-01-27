@@ -112,7 +112,7 @@ function PluginList() {
               onCheckedChange={(checkedState) => handleUsePlugin(OFFICAL_PLUGINS.READER, !!checkedState)}
             />
           </div>
-          <div className="flex rounded-sm px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-900">
+          {/* <div className="flex rounded-sm px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-900">
             <Label
               className="inline-flex flex-1 cursor-pointer overflow-hidden leading-6 text-slate-500"
               htmlFor={OFFICAL_PLUGINS.ARXIV}
@@ -127,8 +127,8 @@ function PluginList() {
               defaultChecked={enabledTools.includes(OFFICAL_PLUGINS.ARXIV)}
               onCheckedChange={(checkedState) => handleUsePlugin(OFFICAL_PLUGINS.ARXIV, !!checkedState)}
             />
-          </div>
-          <div className="flex rounded-sm px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-900">
+          </div> */}
+          {/* <div className="flex rounded-sm px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-900">
             <Label
               className="inline-flex flex-1 cursor-pointer overflow-hidden leading-6 text-slate-500"
               htmlFor={OFFICAL_PLUGINS.WEATHER}
@@ -143,8 +143,8 @@ function PluginList() {
               defaultChecked={enabledTools.includes(OFFICAL_PLUGINS.WEATHER)}
               onCheckedChange={(checkedState) => handleUsePlugin(OFFICAL_PLUGINS.WEATHER, !!checkedState)}
             />
-          </div>
-          <div className="flex rounded-sm px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-900">
+          </div> */}
+          {/* <div className="flex rounded-sm px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-900">
             <Label
               className="inline-flex flex-1 cursor-pointer overflow-hidden leading-6 text-slate-500"
               htmlFor={OFFICAL_PLUGINS.TIME}
@@ -159,8 +159,8 @@ function PluginList() {
               defaultChecked={enabledTools.includes(OFFICAL_PLUGINS.TIME)}
               onCheckedChange={(checkedState) => handleUsePlugin(OFFICAL_PLUGINS.TIME, !!checkedState)}
             />
-          </div>
-          <div className="flex rounded-sm px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-900">
+          </div> */}
+          {/* <div className="flex rounded-sm px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-900">
             <Label
               className="inline-flex flex-1 cursor-pointer overflow-hidden leading-6 text-slate-500"
               htmlFor={OFFICAL_PLUGINS.UNSPLASH}
@@ -175,9 +175,9 @@ function PluginList() {
               defaultChecked={enabledTools.includes(OFFICAL_PLUGINS.UNSPLASH)}
               onCheckedChange={(checkedState) => handleUsePlugin(OFFICAL_PLUGINS.UNSPLASH, !!checkedState)}
             />
-          </div>
+          </div> */}
         </div>
-        <div>
+        {/* <div>
           <h3 className="p-2 text-sm text-slate-400">{t('externalPlugins')}</h3>
           {thirdPartyPlugins.map((plugin) => {
             return (
@@ -218,7 +218,7 @@ function PluginList() {
             <ArrowRight className="my-1 h-4 w-4 cursor-pointer" />
           </div>
         </div>
-        <PluginMarket open={pluginMarketOpen} onClose={() => setPluginMarketOpen(false)} />
+        <PluginMarket open={pluginMarketOpen} onClose={() => setPluginMarketOpen(false)} /> */}
       </PopoverContent>
     </Popover>
   )

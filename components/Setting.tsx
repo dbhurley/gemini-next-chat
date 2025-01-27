@@ -233,14 +233,14 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
               <TabsTrigger className="text-wrap" value="general">
                 {t('generalSetting')}
               </TabsTrigger>
-              <TabsTrigger className="text-wrap" value="model">
-                {t('llmModel')}
-              </TabsTrigger>
-              <TabsTrigger className="text-wrap" value="params">
+              {/* <TabsTrigger className="text-wrap" value="params">
                 {t('modelParams')}
-              </TabsTrigger>
+              </TabsTrigger> */}
               <TabsTrigger className="text-wrap" disabled={hiddenTalkPanel} value="voice">
                 {t('voiceServer')}
+              </TabsTrigger>
+              <TabsTrigger className="text-wrap" value="model">
+                {t('llmModel')}
               </TabsTrigger>
             </TabsList>
             <TabsContent value="general">
@@ -310,7 +310,7 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
                     {t('resetAllSettings')}
                   </Button>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4 space-y-0">
+                {/* <div className="grid grid-cols-4 items-center gap-4 space-y-0">
                   <Label className="text-right">{t('version')}</Label>
                   <div className="col-span-3 text-center leading-10">
                     {`v${pkg.version}`}{' '}
@@ -326,7 +326,7 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
                       )
                     </small>
                   </div>
-                </div>
+                </div> */}
               </div>
             </TabsContent>
             <TabsContent value="model">
