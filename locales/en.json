@@ -37,7 +37,7 @@
   "stop": "Stop",
   "maxHistoryLength": "Max history length",
   "unlimited": "Unlimited",
-  "searchPlaceholder": "Please enter the keyword",
+  "searchPlaceholder": "Search converation history",
   "cancel": "Cancel",
   "assistantSetting": "Assistant Setting",
   "assistantMarketUrl": "Assistant Market Url",
@@ -138,7 +138,7 @@
       "dialogDescription": "The data comes from the Arxiv.org."
     }
   },
-  "conversationList": "Conversation list",
+  "conversationList": "Previous conversations",
   "newConversation": "Start a new conversation",
   "defaultConversation": "Default conversation",
   "pinned": "Pinned",

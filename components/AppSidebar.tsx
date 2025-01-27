@@ -360,7 +360,7 @@ function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className="flex justify-between p-2 pb-0">
-          <span className="text-lg font-semibold text-red-400">Molly Factory</span>
+          <span className="text-lg font-semibold text-red-400">Conversations</span>
           <Button
             className="h-8 w-8 [&_svg]:size-5"
             variant="ghost"
@@ -374,7 +374,7 @@ function AppSidebar() {
         <SearchBar onSearch={handleSearch} onClear={handleClearKeyword} />
       </SidebarHeader>
       <SidebarContent className="gap-0">
-        <SidebarGroup className="py-0">
+        <SidebarGroup className="py-0 hidden">
           <ConversationItem
             id="default"
             title={t('defaultConversation')}
