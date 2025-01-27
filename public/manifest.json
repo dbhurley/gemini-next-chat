@@ -1,8 +1,8 @@
 {
-  "name": "Molly Model Factory",
-  "short_name": "Molly Factory",
-  "description": "Deploy your Molly model.",
-  "id": "molly-model-factory",
+  "name": "Molly",
+  "short_name": "Molly",
+  "description": "Connect with Molly, a Zion Associate.",
+  "id": "molly-model-zion",
   "scope": ".",
   "icons": [
     {

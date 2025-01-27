@@ -11,9 +11,9 @@ import './globals.css'
 
 const HEAD_SCRIPTS = process.env.HEAD_SCRIPTS as string
 
-const APP_NAME = 'Molly Factory'
-const APP_DEFAULT_TITLE = 'Molly Mode'
-const APP_TITLE_TEMPLATE = '%s - Molly Factory'
+const APP_NAME = 'Molly'
+const APP_DEFAULT_TITLE = 'Molly | A Zion Associate'
+const APP_TITLE_TEMPLATE = '%s - with Molly'
 const APP_DESCRIPTION =
   'Deploy your Molly.'
 
