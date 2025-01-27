@@ -890,7 +890,7 @@ export default function Home() {
         </div>
       </div>
       {messages.length === 0 && content === '' && systemInstruction === '' && !systemInstructionEditMode ? (
-        <AssistantRecommend />
+        <></>// <AssistantRecommend />
       ) : (
         <div className="w-full max-w-screen-md flex-1 overflow-y-auto scroll-smooth">
           <div className="flex grow flex-col justify-start">

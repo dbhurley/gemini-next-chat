@@ -229,7 +229,7 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <Tabs defaultValue="general">
-            <TabsList className="mx-auto grid h-fit w-full grid-cols-4">
+            <TabsList className="mx-auto grid h-fit w-full grid-cols-3">
               <TabsTrigger className="text-wrap" value="general">
                 {t('generalSetting')}
               </TabsTrigger>
@@ -368,7 +368,7 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
                     </FormItem>
                   )}
                 />
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="assistantIndexUrl"
                   render={({ field }) => (
@@ -379,7 +379,7 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
                       </FormControl>
                     </FormItem>
                   )}
-                />
+                /> */}
                 <FormField
                   control={form.control}
                   name="model"
@@ -572,6 +572,31 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
             </TabsContent>
             <TabsContent value="voice">
               <div className="grid w-full gap-4 px-4 py-4 max-sm:px-0">
+              <FormField
+                  control={form.control}
+                  name="ttsVoice"
+                  render={({ field }) => (
+                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
+                      <FormLabel className="text-right">{t('soundSource')}</FormLabel>
+                      <FormControl>
+                        <Select defaultValue={field.value} onValueChange={field.onChange}>
+                          <SelectTrigger className="col-span-3">
+                            <SelectValue placeholder={t('followTheSystem')} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {values(voiceOptions).map((option) => {
+                              return (
+                                <SelectItem key={option.value} value={option.value as string}>
+                                  {option.label}
+                                </SelectItem>
+                              )
+                            })}
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
                 <FormField
                   control={form.control}
                   name="sttLang"
@@ -604,31 +629,6 @@ function Setting({ open, hiddenTalkPanel, onClose }: SettingProps) {
                           </SelectTrigger>
                           <SelectContent>
                             <LangOptions />
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="ttsVoice"
-                  render={({ field }) => (
-                    <FormItem className="grid grid-cols-4 items-center gap-4 space-y-0">
-                      <FormLabel className="text-right">{t('soundSource')}</FormLabel>
-                      <FormControl>
-                        <Select defaultValue={field.value} onValueChange={field.onChange}>
-                          <SelectTrigger className="col-span-3">
-                            <SelectValue placeholder={t('followTheSystem')} />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {values(voiceOptions).map((option) => {
-                              return (
-                                <SelectItem key={option.value} value={option.value as string}>
-                                  {option.label}
-                                </SelectItem>
-                              )
-                            })}
                           </SelectContent>
                         </Select>
                       </FormControl>
