@@ -44,27 +44,87 @@ export const openapi: OpenAPIDocument = {
           endpoint: {
             type: 'string',
             description: 'Zion API endpoint path (e.g., contacts, segments, campaigns)',
+            example: 'contacts'
           },
           method: {
             type: 'string',
             enum: ['GET', 'POST', 'PUT', 'DELETE'],
             default: 'GET',
+            example: 'GET'
           },
           data: {
             type: 'object',
             description: 'Data payload for POST/PUT requests',
-          },
-        },
+            properties: {
+              fields: {
+                type: 'object',
+                properties: {
+                  email: {
+                    type: 'string',
+                    description: 'Email address',
+                    example: 'user@example.com'
+                  },
+                  firstname: {
+                    type: 'string',
+                    description: 'First name',
+                    example: 'John'
+                  },
+                  lastname: {
+                    type: 'string',
+                    description: 'Last name',
+                    example: 'Doe'
+                  }
+                }
+              }
+            }
+          }
+        }
       },
       MauticResponse: {
         type: 'object',
         properties: {
-          code: { type: 'number' },
-          status: { type: 'number' },
-          data: { type: 'object' },
-        },
-      },
-    },
+          code: { 
+            type: 'number',
+            example: 200
+          },
+          status: { 
+            type: 'number',
+            example: 1
+          },
+          data: { 
+            type: 'object',
+            properties: {
+              id: {
+                type: 'number',
+                example: 1
+              },
+              fields: {
+                type: 'object',
+                properties: {
+                  all: {
+                    type: 'object',
+                    properties: {
+                      email: {
+                        type: 'string',
+                        example: 'user@example.com'
+                      },
+                      firstname: {
+                        type: 'string',
+                        example: 'John'
+                      },
+                      lastname: {
+                        type: 'string',
+                        example: 'Doe'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   },
   paths: {
     '/mautic': {
