@@ -1,7 +1,7 @@
 type Props = {
   endpoint: string
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
-  data?: Record<string, any>
+  method?: string
+  data?: any
 }
 
 interface MauticContact {
@@ -31,8 +31,8 @@ interface MauticCampaign {
 export const openapi: OpenAPIDocument = {
   openapi: '3.0.1',
   info: {
-    title: 'Zion API',
-    description: 'Plugin for interacting with the Zion API system.',
+    title: 'Zion',
+    description: 'Plugin for interacting with your Zion contacts and automation',
     version: 'v1'
   },
   components: {
@@ -70,40 +70,26 @@ export const openapi: OpenAPIDocument = {
   },
   paths: {
     '/': {
-      post: {
+      get: {
         operationId: 'zionApi',
         description: 'Make requests to the Zion API system',
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: {
-                $ref: '#/components/schemas/ZionRequest'
-              }
+        parameters: [
+          {
+            name: 'endpoint',
+            in: 'query',
+            required: true,
+            schema: {
+              type: 'string'
             }
           }
-        },
+        ],
         responses: {
           200: {
             description: 'Successful response',
             content: {
               'application/json': {
                 schema: {
-                  type: 'object',
-                  properties: {
-                    code: {
-                      type: 'number',
-                      example: 200
-                    },
-                    status: {
-                      type: 'number',
-                      example: 1
-                    },
-                    data: {
-                      type: 'object',
-                      description: 'Response data'
-                    }
-                  }
+                  type: 'object'
                 }
               }
             }
@@ -113,10 +99,10 @@ export const openapi: OpenAPIDocument = {
     },
     '/contacts': {
       get: {
-        operationId: 'getContacts',
-        description: 'Get contacts from Zion',
+        operationId: 'listContacts',
+        description: 'Get a list of contacts from Zion',
         responses: {
-          '200': {
+          200: {
             description: 'List of contacts',
             content: {
               'application/json': {
@@ -214,6 +200,24 @@ export const openapi: OpenAPIDocument = {
           }
         }
       }
+    },
+    '/segments': {
+      get: {
+        operationId: 'listSegments',
+        description: 'Get a list of segments from Zion',
+        responses: {
+          200: {
+            description: 'List of segments',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object'
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   servers: [
@@ -248,5 +252,5 @@ export async function handle({ endpoint, method = 'GET', data }: Props) {
   }
 
   const result = await response.json()
-  return result
+  return result?.contacts || result?.lists || result
 }

@@ -13,7 +13,7 @@ export const officialPlugins: Record<string, OpenAPIDocument> = {
   OfficialTime: time.openapi,
   OfficialWeather: weather.openapi,
   OfficialSearch: search.openapi,
-  OfficialMautic: mautic.openapi,
+  OfficialZion: mautic.openapi
 }
 
 export const OFFICAL_PLUGINS = {
@@ -23,25 +23,25 @@ export const OFFICAL_PLUGINS = {
   TIME: 'OfficialTime',
   UNSPLASH: 'OfficialUnsplash',
   ARXIV: 'OfficialArxiv',
-  MAUTIC: 'OfficialMautic',
+  ZION: 'OfficialZion'
 }
 
 export function pluginHandle(name: string, options: any) {
   switch (name) {
-    case 'OfficialArxiv':
-      return arxiv.handle(options.query)
     case 'OfficialReader':
-      return reader.handle(options.query)
+      return reader.handle(options)
+    case 'OfficialArxiv':
+      return arxiv.handle(options)
     case 'OfficialUnsplash':
-      return unsplash.handle(options.query)
+      return unsplash.handle(options)
     case 'OfficialTime':
-      return time.handle(options.query)
+      return time.handle(options)
     case 'OfficialWeather':
-      return weather.handle(options.query)
+      return weather.handle(options)
     case 'OfficialSearch':
-      return search.handle(options.query)
-    case 'OfficialMautic':
-      return mautic.handle(options.query)
+      return search.handle(options)
+    case 'OfficialZion':
+      return mautic.handle(options)
     default:
       throw new Error('Unable to find plugin')
   }

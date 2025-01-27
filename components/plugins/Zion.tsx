@@ -1,86 +1,67 @@
 'use client'
-import { memo, useState } from 'react'
+import { memo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ChevronRight } from 'lucide-react'
-import ResponsiveDialog from '@/components/ResponsiveDialog'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { Users, Layers } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface Contact {
   id: number
-  email: string
+  email?: string
   firstname?: string
   lastname?: string
 }
 
+interface Segment {
+  id: number
+  name: string
+  description?: string
+}
+
 type Props = {
   data: {
-    total: number
-    contacts: Contact[]
+    contacts?: Contact[]
+    lists?: Segment[]
   }
 }
 
 function Zion(props: Props) {
   const { data } = props
   const { t } = useTranslation()
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false)
 
-  if (!data?.contacts?.length) return null
+  if (!data?.contacts && !data?.lists) return null
 
   return (
-    <>
-      <div className="chat-content overflow-x-auto scroll-smooth">
-        <div className="flex gap-1.5 max-md:gap-1">
-          {data.contacts.slice(0, 4).map((contact, idx) => (
-            <Card key={idx} className="w-40 flex-1 hover:bg-gray-50 hover:dark:bg-gray-900">
-              <CardHeader className="p-2">
-                <CardTitle className="truncate text-sm" title={contact.email}>
-                  {contact.email}
-                </CardTitle>
-              </CardHeader>
+    <div className="chat-content overflow-x-auto scroll-smooth">
+      <div className="flex gap-1.5 max-md:gap-1">
+        {data.contacts && data.contacts.slice(0, 2).map((contact, idx) => (
+          <Card key={idx} className="w-40 flex-1 hover:bg-gray-50 hover:dark:bg-gray-900">
+            <CardHeader className="p-2">
+              <CardTitle className="flex items-center gap-1 truncate text-sm">
+                <Users className="h-4 w-4" />
+                {contact.email || `${contact.firstname} ${contact.lastname}`}
+              </CardTitle>
+            </CardHeader>
+          </Card>
+        ))}
+        {data.lists && data.lists.slice(0, 2).map((segment, idx) => (
+          <Card key={idx} className="w-40 flex-1 hover:bg-gray-50 hover:dark:bg-gray-900">
+            <CardHeader className="p-2">
+              <CardTitle className="flex items-center gap-1 truncate text-sm">
+                <Layers className="h-4 w-4" />
+                {segment.name}
+              </CardTitle>
+            </CardHeader>
+            {segment.description && (
               <CardContent className="p-2 pt-0">
                 <p className="line-clamp-2 text-xs text-gray-500">
-                  {contact.firstname} {contact.lastname}
+                  {segment.description}
                 </p>
               </CardContent>
-            </Card>
-          ))}
-          {data.contacts.length > 4 && (
-            <button
-              className="flex items-center justify-center rounded-lg border px-3 text-xs hover:bg-gray-50 hover:dark:bg-gray-900"
-              onClick={() => setDialogOpen(true)}
-            >
-              {t('plugin.viewAll')}
-              <ChevronRight className="ml-1 h-3 w-3" />
-            </button>
-          )}
-        </div>
+            )}
+          </Card>
+        ))}
       </div>
-
-      <ResponsiveDialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        title={t('plugin.mautic.dialogTitle')}
-        description={t('plugin.mautic.dialogDescription')}
-      >
-        <ScrollArea className="h-96">
-          <div className="space-y-4 p-4">
-            {data.contacts.map((contact, idx) => (
-              <Card key={idx} className="hover:bg-gray-50 hover:dark:bg-gray-900">
-                <CardHeader className="p-3">
-                  <CardTitle className="text-sm">{contact.email}</CardTitle>
-                </CardHeader>
-                <CardContent className="p-3 pt-0">
-                  <p className="text-xs text-gray-500">
-                    {contact.firstname} {contact.lastname}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </ScrollArea>
-      </ResponsiveDialog>
-    </>
+    </div>
   )
 }
 
