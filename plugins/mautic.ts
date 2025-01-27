@@ -1,7 +1,7 @@
 type Props = {
   endpoint: string
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
-  data?: any
+  data?: Record<string, any>
 }
 
 interface MauticContact {
@@ -110,8 +110,117 @@ export const openapi: OpenAPIDocument = {
           }
         }
       }
+    },
+    '/contacts': {
+      get: {
+        operationId: 'getContacts',
+        description: 'Get contacts from Zion',
+        responses: {
+          '200': {
+            description: 'List of contacts',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    total: {
+                      type: 'number',
+                      description: 'Total number of contacts'
+                    },
+                    contacts: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          id: {
+                            type: 'number',
+                            description: 'Contact ID'
+                          },
+                          email: {
+                            type: 'string',
+                            description: 'Contact email'
+                          },
+                          firstname: {
+                            type: 'string',
+                            description: 'First name'
+                          },
+                          lastname: {
+                            type: 'string',
+                            description: 'Last name'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      post: {
+        operationId: 'createContact',
+        description: 'Create a new contact in Zion',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                required: ['email'],
+                properties: {
+                  email: {
+                    type: 'string',
+                    description: 'Contact email address'
+                  },
+                  firstname: {
+                    type: 'string',
+                    description: 'First name'
+                  },
+                  lastname: {
+                    type: 'string',
+                    description: 'Last name'
+                  }
+                }
+              }
+            }
+          }
+        },
+        responses: {
+          '201': {
+            description: 'Contact created successfully',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    contact: {
+                      type: 'object',
+                      properties: {
+                        id: {
+                          type: 'number',
+                          description: 'Contact ID'
+                        },
+                        email: {
+                          type: 'string',
+                          description: 'Contact email'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  }
+  },
+  servers: [
+    {
+      url: '@plugins/mautic'
+    }
+  ]
 }
 
 export async function handle({ endpoint, method = 'GET', data }: Props) {
@@ -129,16 +238,15 @@ export async function handle({ endpoint, method = 'GET', data }: Props) {
     method,
     headers: {
       'Authorization': `Basic ${auth}`,
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    ...(data && method !== 'GET' ? { body: JSON.stringify(data) } : {}),
+    ...(data && method !== 'GET' ? { body: JSON.stringify(data) } : {})
   })
 
-  const result = await response.json()
-
-  return {
-    code: response.status,
-    status: response.ok ? 1 : 0,
-    data: result,
+  if (!response.ok) {
+    throw new Error(`Zion API request failed: ${response.statusText}`)
   }
+
+  const result = await response.json()
+  return result
 }
