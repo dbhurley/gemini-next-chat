@@ -29,6 +29,12 @@ type Props = {
 }
 
 export const openapi: OpenAPIDocument = {
+  openapi: '3.0.0',
+  info: {
+    title: 'Zion API Plugin',
+    version: '1.0.0',
+    description: 'Plugin for interacting with the Zion API'
+  },
   components: {
     schemas: {
       MauticRequest: {
