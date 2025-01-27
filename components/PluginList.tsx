@@ -112,6 +112,22 @@ function PluginList() {
               onCheckedChange={(checkedState) => handleUsePlugin(OFFICAL_PLUGINS.READER, !!checkedState)}
             />
           </div>
+          <div className="flex rounded-sm px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-900">
+            <Label
+              className="inline-flex flex-1 cursor-pointer overflow-hidden leading-6 text-slate-500"
+              htmlFor={OFFICAL_PLUGINS.MAUTIC}
+              title={t('mautic')}
+            >
+              <Camera className="my-1 mr-1 h-4 w-4" />
+              <p className="truncate">{t('mautic')}</p>
+            </Label>
+            <Checkbox
+              id={OFFICAL_PLUGINS.MAUTIC}
+              className="my-1"
+              defaultChecked={enabledTools.includes(OFFICAL_PLUGINS.MAUTIC)}
+              onCheckedChange={(checkedState) => handleUsePlugin(OFFICAL_PLUGINS.MAUTIC, !!checkedState)}
+            />
+          </div>
           {/* <div className="flex rounded-sm px-2 py-1 hover:bg-gray-100 dark:hover:bg-gray-900">
             <Label
               className="inline-flex flex-1 cursor-pointer overflow-hidden leading-6 text-slate-500"
