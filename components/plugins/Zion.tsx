@@ -59,7 +59,7 @@ function Zion(props: Props) {
 
       <ResponsiveDialog
         open={dialogOpen}
-        onOpenChange={setDialogOpen}
+        onClose={() => setDialogOpen(false)}
         title={t('plugin.mautic.dialogTitle')}
         description={t('plugin.mautic.dialogDescription')}
       >
