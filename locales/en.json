@@ -136,6 +136,12 @@
       "viewAll": "View All",
       "dialogTitle": "Search Results",
       "dialogDescription": "The data comes from the Arxiv.org."
+    },
+    "mautic": {
+      "totalDataSources": "data sources",
+      "viewAll": "View All",
+      "dialogTitle": "Search Results",
+      "dialogDescription": "The data comes from the Zion."
     }
   },
   "conversationList": "Previous conversations",

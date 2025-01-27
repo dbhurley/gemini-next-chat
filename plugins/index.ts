@@ -4,6 +4,7 @@ import * as unsplash from './unsplash'
 import * as time from './time'
 import * as weather from './weather'
 import * as search from './search'
+import * as mautic from './mautic'
 
 export const officialPlugins: Record<string, OpenAPIDocument> = {
   OfficialReader: reader.openapi,
@@ -12,6 +13,7 @@ export const officialPlugins: Record<string, OpenAPIDocument> = {
   OfficialTime: time.openapi,
   OfficialWeather: weather.openapi,
   OfficialSearch: search.openapi,
+  OfficialMautic: mautic.openapi,
 }
 
 export const OFFICAL_PLUGINS = {
@@ -21,6 +23,7 @@ export const OFFICAL_PLUGINS = {
   TIME: 'OfficialTime',
   UNSPLASH: 'OfficialUnsplash',
   ARXIV: 'OfficialArxiv',
+  MAUTIC: 'OfficialMautic',
 }
 
 export function pluginHandle(name: string, options: any) {
@@ -37,6 +40,8 @@ export function pluginHandle(name: string, options: any) {
       return weather.handle(options.query)
     case 'OfficialSearch':
       return search.handle(options.query)
+    case 'OfficialMautic':
+      return mautic.handle(options.query)
     default:
       throw new Error('Unable to find plugin')
   }
