@@ -1,3 +1,9 @@
+type Props = {
+  endpoint: string
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
+  data?: any
+}
+
 interface MauticContact {
   id: number
   fields: {
@@ -22,100 +28,80 @@ interface MauticCampaign {
   description: string
 }
 
-type Props = {
-  endpoint: string
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE'
-  data?: any
-}
-
 export const openapi: OpenAPIDocument = {
-  openapi: '3.0.0',
+  openapi: '3.0.1',
   info: {
-    title: 'Zion API Plugin',
-    version: '1.0.0',
-    description: 'Plugin for interacting with the Zion API'
+    title: 'Zion API',
+    description: 'Plugin for interacting with the Zion API system.',
+    version: 'v1'
   },
   components: {
     schemas: {
-      MauticRequest: {
+      ZionRequest: {
         type: 'object',
-        required: ['endpoint'],
+        description: 'Request parameters for Zion API',
         properties: {
           endpoint: {
             type: 'string',
-            description: 'Zion API endpoint path (e.g., contacts, segments, campaigns)',
+            description: 'API endpoint to call',
             example: 'contacts'
           },
           method: {
             type: 'string',
+            description: 'HTTP method',
             enum: ['GET', 'POST', 'PUT', 'DELETE'],
-            default: 'GET',
             example: 'GET'
           },
           data: {
             type: 'object',
-            description: 'Data payload for POST/PUT requests',
+            description: 'Request payload',
             properties: {
-              fields: {
-                type: 'object',
-                properties: {
-                  email: {
-                    type: 'string',
-                    description: 'Email address',
-                    example: 'user@example.com'
-                  },
-                  firstname: {
-                    type: 'string',
-                    description: 'First name',
-                    example: 'John'
-                  },
-                  lastname: {
-                    type: 'string',
-                    description: 'Last name',
-                    example: 'Doe'
-                  }
-                }
+              email: {
+                type: 'string',
+                description: 'Contact email address',
+                example: 'user@example.com'
               }
             }
           }
-        }
-      },
-      MauticResponse: {
-        type: 'object',
-        properties: {
-          code: { 
-            type: 'number',
-            example: 200
-          },
-          status: { 
-            type: 'number',
-            example: 1
-          },
-          data: { 
-            type: 'object',
-            properties: {
-              id: {
-                type: 'number',
-                example: 1
-              },
-              fields: {
-                type: 'object',
-                properties: {
-                  all: {
-                    type: 'object',
-                    properties: {
-                      email: {
-                        type: 'string',
-                        example: 'user@example.com'
-                      },
-                      firstname: {
-                        type: 'string',
-                        example: 'John'
-                      },
-                      lastname: {
-                        type: 'string',
-                        example: 'Doe'
-                      }
+        },
+        required: ['endpoint']
+      }
+    }
+  },
+  paths: {
+    '/': {
+      post: {
+        operationId: 'zionApi',
+        description: 'Make requests to the Zion API system',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/ZionRequest'
+              }
+            }
+          }
+        },
+        responses: {
+          200: {
+            description: 'Successful response',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    code: {
+                      type: 'number',
+                      example: 200
+                    },
+                    status: {
+                      type: 'number',
+                      example: 1
+                    },
+                    data: {
+                      type: 'object',
+                      description: 'Response data'
                     }
                   }
                 }
@@ -125,36 +111,7 @@ export const openapi: OpenAPIDocument = {
         }
       }
     }
-  },
-  paths: {
-    '/mautic': {
-      post: {
-        summary: 'Make a request to the Zion API',
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: {
-                $ref: '#/components/schemas/MauticRequest',
-              },
-            },
-          },
-        },
-        responses: {
-          200: {
-            description: 'Successful response from Zion API',
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/MauticResponse',
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+  }
 }
 
 export async function handle({ endpoint, method = 'GET', data }: Props) {
