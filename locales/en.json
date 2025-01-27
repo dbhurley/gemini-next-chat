@@ -1,6 +1,6 @@
 {
   "status": {
-    "thinking": "Thingking"
+    "thinking": "Thinking"
   },
   "clearChatContent": "Clear chat content",
   "chatMode": "Chat Mode",
@@ -11,10 +11,10 @@
   "setting": "Setting",
   "chatLayout": "Chat Layout",
   "docLayout": "Doc Layout",
-  "settingDescription": "Please enter the access password or use your own Gemini Key. The key sends the request through the browser and will not be forwarded to the backend server.",
+  "settingDescription": "Please enter the access password or use your own Master Molly Key. The key sends the request through the browser and will not be forwarded to the backend server.",
   "accessPassword": "Access password",
   "accessPasswordPlaceholder": "Please enter access password",
-  "geminiKey": "Gemini Key",
+  "geminiKey": "Master Molly Key",
   "geminiKeyPlaceholder": "Please enter your Gemini key",
   "apiProxyUrl": "API Proxy Url",
   "uploadProxyUrl": "File upload proxy URL",
