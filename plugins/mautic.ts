@@ -1,148 +1,106 @@
 type Props = {
   endpoint: string
-  method?: string
-  data?: any
+  query?: string
 }
 
-interface MauticContact {
-  id: number
-  fields: {
-    all: {
-      email: string
-      firstname?: string
-      lastname?: string
-      [key: string]: any
-    }
-  }
-}
-
-interface MauticSegment {
-  id: number
-  name: string
-  alias: string
-}
-
-interface MauticCampaign {
-  id: number
-  name: string
-  description: string
+type ZionResponse = {
+  contacts?: Array<{
+    id: number
+    email: string
+    firstname?: string
+    lastname?: string
+  }>
+  lists?: Array<{
+    id: number
+    name: string
+    description?: string
+  }>
 }
 
 export const openapi: OpenAPIDocument = {
-  openapi: '3.0.1',
-  info: {
-    title: 'Zion',
-    description: 'Plugin for interacting with your Zion contacts and automation',
-    version: 'v1'
-  },
-  paths: {
-    '/contacts': {
-      get: {
-        operationId: 'listContacts',
-        description: 'Get a list of contacts from Zion',
-        summary: 'List all contacts',
-        tags: ['Contacts'],
-        parameters: [],
-        responses: {
-          '200': {
-            description: 'List of contacts',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    contacts: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        properties: {
-                          email: {
-                            type: 'string',
-                            description: 'Contact email address'
-                          },
-                          firstname: {
-                            type: 'string',
-                            description: 'First name'
-                          },
-                          lastname: {
-                            type: 'string',
-                            description: 'Last name'
-                          }
-                        },
-                        required: ['email']
-                      }
-                    }
-                  }
+  components: {
+    schemas: {
+      zionResponse: {
+        type: 'object',
+        description: 'The response from Zion API.',
+        properties: {
+          contacts: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'number',
+                  description: 'Contact ID'
+                },
+                email: {
+                  type: 'string',
+                  description: 'Contact email address'
+                },
+                firstname: {
+                  type: 'string',
+                  description: 'First name'
+                },
+                lastname: {
+                  type: 'string',
+                  description: 'Last name'
+                }
+              }
+            }
+          },
+          lists: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'number',
+                  description: 'Segment ID'
+                },
+                name: {
+                  type: 'string',
+                  description: 'Segment name'
+                },
+                description: {
+                  type: 'string',
+                  description: 'Segment description'
                 }
               }
             }
           }
         }
-      },
-      post: {
-        operationId: 'createContact',
-        description: 'Create a new contact in Zion',
-        summary: 'Create a contact',
-        tags: ['Contacts'],
-        requestBody: {
-          required: true,
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  email: {
-                    type: 'string',
-                    description: 'Contact email address'
-                  },
-                  firstname: {
-                    type: 'string',
-                    description: 'First name'
-                  },
-                  lastname: {
-                    type: 'string',
-                    description: 'Last name'
-                  }
-                },
-                required: ['email']
-              }
-            }
-          }
-        },
-        responses: {
-          '201': {
-            description: 'Contact created successfully'
-          }
-        }
       }
-    },
-    '/segments': {
+    }
+  },
+  info: {
+    title: 'Zion',
+    description: 'Plugin for interacting with your Zion contacts and automation',
+    version: 'v1'
+  },
+  openapi: '3.0.1',
+  paths: {
+    '/': {
       get: {
-        operationId: 'listSegments',
-        description: 'Get a list of segments from Zion',
-        summary: 'List all segments',
-        tags: ['Segments'],
-        parameters: [],
+        operationId: 'zionApi',
+        description: 'Get data from Zion',
+        parameters: [
+          {
+            name: 'endpoint',
+            in: 'query',
+            required: true,
+            schema: {
+              type: 'string'
+            },
+            description: 'API endpoint to query (contacts or segments)'
+          }
+        ],
         responses: {
           '200': {
-            description: 'List of segments',
+            description: 'Successful response',
             content: {
               'application/json': {
                 schema: {
-                  type: 'object',
-                  properties: {
-                    lists: {
-                      type: 'array',
-                      items: {
-                        type: 'object',
-                        properties: {
-                          id: { type: 'number' },
-                          name: { type: 'string' },
-                          description: { type: 'string' }
-                        }
-                      }
-                    }
-                  }
+                  $ref: '#/components/schemas/zionResponse'
                 }
               }
             }
@@ -158,7 +116,7 @@ export const openapi: OpenAPIDocument = {
   ]
 }
 
-export async function handle({ endpoint, method = 'GET', data }: Props) {
+export async function handle({ endpoint, query }: Props): Promise<ZionResponse> {
   const apiUrl = process.env.MAUTIC_API_URL
   const apiUser = process.env.MAUTIC_API_USER
   const apiPassword = process.env.MAUTIC_API_PASSWORD
@@ -169,13 +127,12 @@ export async function handle({ endpoint, method = 'GET', data }: Props) {
 
   const auth = Buffer.from(`${apiUser}:${apiPassword}`).toString('base64')
   
-  const response = await fetch(`${apiUrl}/api/${endpoint}`, {
-    method,
+  const response = await fetch(`${apiUrl}/api/${endpoint}${query ? `?search=${query}` : ''}`, {
+    method: 'GET',
     headers: {
       'Authorization': `Basic ${auth}`,
       'Content-Type': 'application/json'
-    },
-    ...(data && method !== 'GET' ? { body: JSON.stringify(data) } : {})
+    }
   })
 
   if (!response.ok) {
@@ -183,5 +140,8 @@ export async function handle({ endpoint, method = 'GET', data }: Props) {
   }
 
   const result = await response.json()
-  return result?.contacts || result?.lists || result
+  return {
+    contacts: result.contacts,
+    lists: result.lists
+  }
 }
