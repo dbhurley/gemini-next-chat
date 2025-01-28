@@ -111,7 +111,7 @@ export const openapi: OpenAPIDocument = {
   },
   servers: [
     {
-      url: '@plugins/mautic'
+      url: '@plugins/zion'
     }
   ]
 }

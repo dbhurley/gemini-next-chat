@@ -116,10 +116,10 @@ function PluginList() {
             <Label
               className="inline-flex flex-1 cursor-pointer overflow-hidden leading-6 text-slate-500"
               htmlFor={OFFICAL_PLUGINS.ZION}
-              title={t('mautic')}
+              title={t('Zion')}
             >
               <Camera className="my-1 mr-1 h-4 w-4" />
-              <p className="truncate">{t('mautic')}</p>
+              <p className="truncate">{t('Zion')}</p>
             </Label>
             <Checkbox
               id={OFFICAL_PLUGINS.ZION}

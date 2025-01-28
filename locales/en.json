@@ -81,7 +81,8 @@
   "realTimeWeather": "Weather",
   "currentTime": "Current Time",
   "arxivSearch": "Arxiv Search",
-  "mautic": "Zion",
+  "zion": "Zion",
+  "Zion": "Zion",
   "loadPlugin": "Load enhancement",
   "addPlugin": "Add enhancement",
   "uninstall": "Uninstall",
@@ -138,7 +139,7 @@
       "dialogTitle": "Search Results",
       "dialogDescription": "The data comes from the Arxiv.org."
     },
-    "mautic": {
+    "zion": {
       "totalDataSources": "data sources",
       "viewAll": "View All",
       "dialogTitle": "Search Results",
