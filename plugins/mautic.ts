@@ -64,13 +64,7 @@ export const openapi: OpenAPIDocument = {
         description: 'Get a list of contacts from Zion',
         summary: 'List all contacts',
         tags: ['Contacts'],
-        functionCall: {
-          name: 'handle',
-          parameters: {
-            endpoint: 'contacts',
-            method: 'GET'
-          }
-        },
+        parameters: [],
         responses: {
           200: {
             description: 'List of contacts',
@@ -97,13 +91,6 @@ export const openapi: OpenAPIDocument = {
         description: 'Create a new contact in Zion',
         summary: 'Create a contact',
         tags: ['Contacts'],
-        functionCall: {
-          name: 'handle',
-          parameters: {
-            endpoint: 'contacts',
-            method: 'POST'
-          }
-        },
         requestBody: {
           required: true,
           content: {
@@ -127,13 +114,7 @@ export const openapi: OpenAPIDocument = {
         description: 'Get a list of segments from Zion',
         summary: 'List all segments',
         tags: ['Segments'],
-        functionCall: {
-          name: 'handle',
-          parameters: {
-            endpoint: 'segments',
-            method: 'GET'
-          }
-        },
+        parameters: [],
         responses: {
           200: {
             description: 'List of segments',
