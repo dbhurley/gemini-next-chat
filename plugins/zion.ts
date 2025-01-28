@@ -117,16 +117,16 @@ export const openapi: OpenAPIDocument = {
 }
 
 export async function handle({ endpoint, query }: Props): Promise<ZionResponse> {
-  const apiUrl = process.env.MAUTIC_API_URL
-  const apiUser = process.env.MAUTIC_API_USER
-  const apiPassword = process.env.MAUTIC_API_PASSWORD
+  const apiUrl = process.env.NEXT_PUBLIC_ZION_API_URL
+  const apiUser = process.env.NEXT_PUBLIC_ZION_API_USER
+  const apiPassword = process.env.NEXT_PUBLIC_ZION_API_PASSWORD
 
   if (!apiUrl || !apiUser || !apiPassword) {
     throw new Error('Zion API credentials not configured')
   }
 
   const auth = Buffer.from(`${apiUser}:${apiPassword}`).toString('base64')
-  
+
   const response = await fetch(`${apiUrl}/api/${endpoint}${query ? `?search=${query}` : ''}`, {
     method: 'GET',
     headers: {
