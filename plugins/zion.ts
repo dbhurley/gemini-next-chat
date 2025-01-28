@@ -116,6 +116,27 @@ export const openapi: OpenAPIDocument = {
   ]
 }
 
+// Define valid endpoints and their configurations
+const ENDPOINTS = {
+  contacts: {
+    path: 'contacts',
+    searchParam: 'search',
+    responseKey: 'contacts'
+  },
+  segments: {
+    path: 'segments',
+    searchParam: 'search',
+    responseKey: 'lists'
+  }
+} as const;
+
+type EndpointKey = keyof typeof ENDPOINTS;
+
+type Props = {
+  endpoint: EndpointKey | string;
+  query?: string;
+}
+
 export async function handle({ endpoint, query }: Props): Promise<ZionResponse> {
   const apiUrl = process.env.NEXT_PUBLIC_ZION_API_URL
   const apiUser = process.env.NEXT_PUBLIC_ZION_API_USER
@@ -125,23 +146,44 @@ export async function handle({ endpoint, query }: Props): Promise<ZionResponse> 
     throw new Error('Zion API credentials not configured')
   }
 
-  const auth = Buffer.from(`${apiUser}:${apiPassword}`).toString('base64')
-
-  const response = await fetch(`${apiUrl}/api/${endpoint}${query ? `?search=${query}` : ''}`, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Basic ${auth}`,
-      'Content-Type': 'application/json'
-    }
-  })
-
-  if (!response.ok) {
-    throw new Error(`Zion API request failed: ${response.statusText}`)
+  // Validate and get endpoint configuration
+  const endpointConfig = ENDPOINTS[endpoint as EndpointKey];
+  if (!endpointConfig) {
+    throw new Error(`Invalid endpoint: ${endpoint}. Valid endpoints are: ${Object.keys(ENDPOINTS).join(', ')}`);
   }
 
-  const result = await response.json()
-  return {
-    contacts: result.contacts,
-    lists: result.lists
+  const auth = Buffer.from(`${apiUser}:${apiPassword}`).toString('base64')
+  
+  // Build URL with proper query parameters
+  const queryParams = new URLSearchParams();
+  if (query) {
+    queryParams.append(endpointConfig.searchParam, query);
+  }
+  
+  const url = `${apiUrl}/api/${endpointConfig.path}${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Basic ${auth}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    
+    // Structure the response based on the endpoint
+    return {
+      contacts: endpointConfig.responseKey === 'contacts' ? result[endpointConfig.responseKey] : undefined,
+      lists: endpointConfig.responseKey === 'lists' ? result[endpointConfig.responseKey] : undefined
+    };
+  } catch (error) {
+    console.error('Zion API request failed:', error);
+    throw new Error(`Failed to fetch from Zion API: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
