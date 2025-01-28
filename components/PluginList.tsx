@@ -193,7 +193,7 @@ function PluginList() {
             />
           </div> */}
         </div>
-        {/* <div>
+        <div>
           <h3 className="p-2 text-sm text-slate-400">{t('externalPlugins')}</h3>
           {thirdPartyPlugins.map((plugin) => {
             return (
@@ -234,7 +234,7 @@ function PluginList() {
             <ArrowRight className="my-1 h-4 w-4 cursor-pointer" />
           </div>
         </div>
-        <PluginMarket open={pluginMarketOpen} onClose={() => setPluginMarketOpen(false)} /> */}
+        <PluginMarket open={pluginMarketOpen} onClose={() => setPluginMarketOpen(false)} />
       </PopoverContent>
     </Popover>
   )
