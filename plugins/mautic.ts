@@ -35,28 +35,6 @@ export const openapi: OpenAPIDocument = {
     description: 'Plugin for interacting with your Zion contacts and automation',
     version: 'v1'
   },
-  components: {
-    schemas: {
-      Contact: {
-        type: 'object',
-        properties: {
-          email: {
-            type: 'string',
-            description: 'Contact email address'
-          },
-          firstname: {
-            type: 'string',
-            description: 'First name'
-          },
-          lastname: {
-            type: 'string',
-            description: 'Last name'
-          }
-        },
-        required: ['email']
-      }
-    }
-  },
   paths: {
     '/contacts': {
       get: {
@@ -66,7 +44,7 @@ export const openapi: OpenAPIDocument = {
         tags: ['Contacts'],
         parameters: [],
         responses: {
-          200: {
+          '200': {
             description: 'List of contacts',
             content: {
               'application/json': {
@@ -76,7 +54,22 @@ export const openapi: OpenAPIDocument = {
                     contacts: {
                       type: 'array',
                       items: {
-                        $ref: '#/components/schemas/Contact'
+                        type: 'object',
+                        properties: {
+                          email: {
+                            type: 'string',
+                            description: 'Contact email address'
+                          },
+                          firstname: {
+                            type: 'string',
+                            description: 'First name'
+                          },
+                          lastname: {
+                            type: 'string',
+                            description: 'Last name'
+                          }
+                        },
+                        required: ['email']
                       }
                     }
                   }
@@ -96,13 +89,28 @@ export const openapi: OpenAPIDocument = {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Contact'
+                type: 'object',
+                properties: {
+                  email: {
+                    type: 'string',
+                    description: 'Contact email address'
+                  },
+                  firstname: {
+                    type: 'string',
+                    description: 'First name'
+                  },
+                  lastname: {
+                    type: 'string',
+                    description: 'Last name'
+                  }
+                },
+                required: ['email']
               }
             }
           }
         },
         responses: {
-          201: {
+          '201': {
             description: 'Contact created successfully'
           }
         }
@@ -116,7 +124,7 @@ export const openapi: OpenAPIDocument = {
         tags: ['Segments'],
         parameters: [],
         responses: {
-          200: {
+          '200': {
             description: 'List of segments',
             content: {
               'application/json': {
