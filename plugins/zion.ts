@@ -132,12 +132,7 @@ const ENDPOINTS = {
 
 type EndpointKey = keyof typeof ENDPOINTS;
 
-type Props = {
-  endpoint: EndpointKey | string;
-  query?: string;
-}
-
-export async function handle({ endpoint, query }: Props): Promise<ZionResponse> {
+export async function handle({ endpoint, query }: { endpoint: EndpointKey | string; query?: string; }): Promise<ZionResponse> {
   const apiUrl = process.env.NEXT_PUBLIC_ZION_API_URL
   const apiUser = process.env.NEXT_PUBLIC_ZION_API_USER
   const apiPassword = process.env.NEXT_PUBLIC_ZION_API_PASSWORD
