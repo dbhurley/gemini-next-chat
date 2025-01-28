@@ -28,7 +28,7 @@ function Zion(props: Props) {
   const { data } = props
   const { t } = useTranslation()
 
-  if (!data?.contacts && !data?.lists) return null
+  if (!data?.contacts?.length && !data?.lists?.length) return null
 
   return (
     <div className="chat-content overflow-x-auto scroll-smooth">

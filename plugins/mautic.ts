@@ -37,70 +37,40 @@ export const openapi: OpenAPIDocument = {
   },
   components: {
     schemas: {
-      ZionRequest: {
+      Contact: {
         type: 'object',
-        description: 'Request parameters for Zion API',
         properties: {
-          endpoint: {
+          email: {
             type: 'string',
-            description: 'API endpoint to call',
-            example: 'contacts'
+            description: 'Contact email address'
           },
-          method: {
+          firstname: {
             type: 'string',
-            description: 'HTTP method',
-            enum: ['GET', 'POST', 'PUT', 'DELETE'],
-            example: 'GET'
+            description: 'First name'
           },
-          data: {
-            type: 'object',
-            description: 'Request payload',
-            properties: {
-              email: {
-                type: 'string',
-                description: 'Contact email address',
-                example: 'user@example.com'
-              }
-            }
+          lastname: {
+            type: 'string',
+            description: 'Last name'
           }
         },
-        required: ['endpoint']
+        required: ['email']
       }
     }
   },
   paths: {
-    '/': {
-      get: {
-        operationId: 'zionApi',
-        description: 'Make requests to the Zion API system',
-        parameters: [
-          {
-            name: 'endpoint',
-            in: 'query',
-            required: true,
-            schema: {
-              type: 'string'
-            }
-          }
-        ],
-        responses: {
-          200: {
-            description: 'Successful response',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object'
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     '/contacts': {
       get: {
         operationId: 'listContacts',
         description: 'Get a list of contacts from Zion',
+        summary: 'List all contacts',
+        tags: ['Contacts'],
+        functionCall: {
+          name: 'handle',
+          parameters: {
+            endpoint: 'contacts',
+            method: 'GET'
+          }
+        },
         responses: {
           200: {
             description: 'List of contacts',
@@ -109,32 +79,10 @@ export const openapi: OpenAPIDocument = {
                 schema: {
                   type: 'object',
                   properties: {
-                    total: {
-                      type: 'number',
-                      description: 'Total number of contacts'
-                    },
                     contacts: {
                       type: 'array',
                       items: {
-                        type: 'object',
-                        properties: {
-                          id: {
-                            type: 'number',
-                            description: 'Contact ID'
-                          },
-                          email: {
-                            type: 'string',
-                            description: 'Contact email'
-                          },
-                          firstname: {
-                            type: 'string',
-                            description: 'First name'
-                          },
-                          lastname: {
-                            type: 'string',
-                            description: 'Last name'
-                          }
-                        }
+                        $ref: '#/components/schemas/Contact'
                       }
                     }
                   }
@@ -147,56 +95,28 @@ export const openapi: OpenAPIDocument = {
       post: {
         operationId: 'createContact',
         description: 'Create a new contact in Zion',
+        summary: 'Create a contact',
+        tags: ['Contacts'],
+        functionCall: {
+          name: 'handle',
+          parameters: {
+            endpoint: 'contacts',
+            method: 'POST'
+          }
+        },
         requestBody: {
           required: true,
           content: {
             'application/json': {
               schema: {
-                type: 'object',
-                required: ['email'],
-                properties: {
-                  email: {
-                    type: 'string',
-                    description: 'Contact email address'
-                  },
-                  firstname: {
-                    type: 'string',
-                    description: 'First name'
-                  },
-                  lastname: {
-                    type: 'string',
-                    description: 'Last name'
-                  }
-                }
+                $ref: '#/components/schemas/Contact'
               }
             }
           }
         },
         responses: {
-          '201': {
-            description: 'Contact created successfully',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    contact: {
-                      type: 'object',
-                      properties: {
-                        id: {
-                          type: 'number',
-                          description: 'Contact ID'
-                        },
-                        email: {
-                          type: 'string',
-                          description: 'Contact email'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+          201: {
+            description: 'Contact created successfully'
           }
         }
       }
@@ -205,13 +125,35 @@ export const openapi: OpenAPIDocument = {
       get: {
         operationId: 'listSegments',
         description: 'Get a list of segments from Zion',
+        summary: 'List all segments',
+        tags: ['Segments'],
+        functionCall: {
+          name: 'handle',
+          parameters: {
+            endpoint: 'segments',
+            method: 'GET'
+          }
+        },
         responses: {
           200: {
             description: 'List of segments',
             content: {
               'application/json': {
                 schema: {
-                  type: 'object'
+                  type: 'object',
+                  properties: {
+                    lists: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          id: { type: 'number' },
+                          name: { type: 'string' },
+                          description: { type: 'string' }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
