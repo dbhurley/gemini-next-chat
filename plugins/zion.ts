@@ -260,7 +260,11 @@ const MAUTIC_ENDPOINTS = {
 type MauticEndpoint = keyof typeof MAUTIC_ENDPOINTS;
 
 // Helper function to determine the most likely endpoint based on the query
-function determineEndpoint(query: string): MauticEndpoint {
+function determineEndpoint(query: string | undefined): MauticEndpoint {
+  if (!query || typeof query !== 'string') {
+    return 'contacts'; // Default to contacts if no query or invalid query
+  }
+
   const normalizedQuery = query.toLowerCase();
   const words = normalizedQuery.split(/\s+/);
   
@@ -279,7 +283,7 @@ function determineEndpoint(query: string): MauticEndpoint {
   return (bestMatch.score > 0 ? bestMatch.endpoint : 'contacts') as MauticEndpoint;
 }
 
-export async function handle({ query }: { query: string }): Promise<ZionResponse> {
+export async function handle({ query }: { query?: string }): Promise<ZionResponse> {
   const apiUrl = process.env.NEXT_PUBLIC_ZION_API_URL
   const apiUser = process.env.NEXT_PUBLIC_ZION_API_USER
   const apiPassword = process.env.NEXT_PUBLIC_ZION_API_PASSWORD
