@@ -28,12 +28,11 @@ function Zion(props: Props) {
   const { data } = props
   const { t } = useTranslation()
 
-  if (!data?.contacts?.length && !data?.lists?.length) return null
-
+  // Always render the container, even without data
   return (
     <div className="chat-content overflow-x-auto scroll-smooth">
       <div className="flex gap-1.5 max-md:gap-1">
-        {data.contacts && data.contacts.slice(0, 2).map((contact, idx) => (
+        {data?.contacts?.slice(0, 2).map((contact, idx) => (
           <Card key={idx} className="w-40 flex-1 hover:bg-gray-50 hover:dark:bg-gray-900">
             <CardHeader className="p-2">
               <CardTitle className="flex items-center gap-1 truncate text-sm">
@@ -43,7 +42,7 @@ function Zion(props: Props) {
             </CardHeader>
           </Card>
         ))}
-        {data.lists && data.lists.slice(0, 2).map((segment, idx) => (
+        {data?.lists?.slice(0, 2).map((segment, idx) => (
           <Card key={idx} className="w-40 flex-1 hover:bg-gray-50 hover:dark:bg-gray-900">
             <CardHeader className="p-2">
               <CardTitle className="flex items-center gap-1 truncate text-sm">
@@ -60,6 +59,16 @@ function Zion(props: Props) {
             )}
           </Card>
         ))}
+        {(!data?.contacts?.length && !data?.lists?.length) && (
+          <Card className="w-40 flex-1 hover:bg-gray-50 hover:dark:bg-gray-900">
+            <CardHeader className="p-2">
+              <CardTitle className="flex items-center gap-1 truncate text-sm text-gray-500">
+                <Users className="h-4 w-4" />
+                {t('Connecting...')}
+              </CardTitle>
+            </CardHeader>
+          </Card>
+        )}
       </div>
     </div>
   )
