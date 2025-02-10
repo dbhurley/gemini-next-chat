@@ -24,10 +24,11 @@ type Props = {
   }
   page: number
   limit: number
+  search?: string
 }
 
 function Zion(props: Props) {
-  const { data, page, limit } = props
+  const { data, page, limit, search } = props
   const { t } = useTranslation()
 
   // Always render the container, even without data
