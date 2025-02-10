@@ -33,6 +33,21 @@ type ZionResponse = {
     description?: string
     data?: any
   }>
+  emails?: Array<{
+    id: number
+    subject: string
+    content?: string
+  }>
+  pages?: Array<{
+    id: number
+    title: string
+    content?: string
+  }>
+  forms?: Array<{
+    id: number
+    name: string
+    description?: string
+  }>
 }
 
 export const openapi: OpenAPIDocument = {
@@ -157,6 +172,66 @@ export const openapi: OpenAPIDocument = {
                 }
               }
             }
+          },
+          emails: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'number',
+                  description: 'Email ID'
+                },
+                subject: {
+                  type: 'string',
+                  description: 'Email subject'
+                },
+                content: {
+                  type: 'string',
+                  description: 'Email content'
+                }
+              }
+            }
+          },
+          pages: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'number',
+                  description: 'Page ID'
+                },
+                title: {
+                  type: 'string',
+                  description: 'Page title'
+                },
+                content: {
+                  type: 'string',
+                  description: 'Page content'
+                }
+              }
+            }
+          },
+          forms: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                id: {
+                  type: 'number',
+                  description: 'Form ID'
+                },
+                name: {
+                  type: 'string',
+                  description: 'Form name'
+                },
+                description: {
+                  type: 'string',
+                  description: 'Form description'
+                }
+              }
+            }
           }
         }
       }
@@ -210,50 +285,83 @@ export const openapi: OpenAPIDocument = {
 const MAUTIC_ENDPOINTS = {
   contacts: {
     path: 'contacts',
-    terms: ['contact', 'contacts', 'person', 'people', 'lead', 'leads', 'subscriber', 'subscribers', 'user', 'users', 'individual', 'individuals'],
+    responseKey: 'contacts',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    terms: ['contact', 'contacts'],
     searchParams: {
       search: 'search',
-      email: 'email',
-      name: ['firstname', 'lastname']
-    },
-    responseKey: 'contacts'
+      filters: 'filters'
+    }
   },
   segments: {
     path: 'segments',
-    terms: ['segment', 'segments', 'list', 'lists', 'group', 'groups', 'audience', 'audiences'],
+    responseKey: 'lists',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    terms: ['list', 'segment', 'segments'],
     searchParams: {
       search: 'search',
-      name: 'name'
-    },
-    responseKey: 'lists'
+      filters: 'filters'
+    }
   },
   campaigns: {
     path: 'campaigns',
-    terms: ['campaign', 'campaigns', 'automation', 'automations', 'workflow', 'workflows'],
+    responseKey: 'campaigns',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    terms: ['campaign', 'campaigns'],
     searchParams: {
       search: 'search',
-      name: 'name',
-      published: 'isPublished'
-    },
-    responseKey: 'campaigns'
+      filters: 'filters'
+    }
   },
   assets: {
     path: 'assets',
-    terms: ['asset', 'assets', 'file', 'files', 'document', 'documents', 'download', 'downloads'],
+    responseKey: 'assets',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    terms: ['asset', 'assets'],
     searchParams: {
       search: 'search',
-      title: 'title'
-    },
-    responseKey: 'assets'
+      filters: 'filters'
+    }
   },
   reports: {
     path: 'reports',
-    terms: ['report', 'reports', 'analytics', 'statistics', 'stats', 'data'],
+    responseKey: 'reports',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    terms: ['report', 'reports'],
     searchParams: {
       search: 'search',
-      name: 'name'
-    },
-    responseKey: 'reports'
+      filters: 'filters'
+    }
+  },
+  emails: {
+    path: 'emails',
+    responseKey: 'emails',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    terms: ['email', 'emails'],
+    searchParams: {
+      search: 'search',
+      filters: 'filters'
+    }
+  },
+  pages: {
+    path: 'pages',
+    responseKey: 'pages',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    terms: ['page', 'pages'],
+    searchParams: {
+      search: 'search',
+      filters: 'filters'
+    }
+  },
+  forms: {
+    path: 'forms',
+    responseKey: 'forms',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    terms: ['form', 'forms'],
+    searchParams: {
+      search: 'search',
+      filters: 'filters'
+    }
   }
 } as const;
 
@@ -327,7 +435,10 @@ export async function handle({ query }: { query?: string }): Promise<ZionRespons
       lists: endpoint === 'segments' ? result[endpointConfig.responseKey] : undefined,
       campaigns: endpoint === 'campaigns' ? result[endpointConfig.responseKey] : undefined,
       assets: endpoint === 'assets' ? result[endpointConfig.responseKey] : undefined,
-      reports: endpoint === 'reports' ? result[endpointConfig.responseKey] : undefined
+      reports: endpoint === 'reports' ? result[endpointConfig.responseKey] : undefined,
+      emails: endpoint === 'emails' ? result[endpointConfig.responseKey] : undefined,
+      pages: endpoint === 'pages' ? result[endpointConfig.responseKey] : undefined,
+      forms: endpoint === 'forms' ? result[endpointConfig.responseKey] : undefined
     };
   } catch (error) {
     console.error('Mautic API request failed:', error);
