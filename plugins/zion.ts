@@ -334,6 +334,53 @@ const MAUTIC_ENDPOINTS = {
 
 type MauticEndpoint = keyof typeof MAUTIC_ENDPOINTS;
 
+export type ZionResponse = {
+  contacts?: Array<{
+    id: number
+    email: string
+    firstname?: string
+    lastname?: string
+  }>
+  lists?: Array<{
+    id: number
+    name: string
+    description?: string
+  }>
+  campaigns?: Array<{
+    id: number
+    name: string
+    description?: string
+    isPublished?: boolean
+  }>
+  assets?: Array<{
+    id: number
+    title: string
+    description?: string
+    downloadCount?: number
+  }>
+  reports?: Array<{
+    id: number
+    name: string
+    description?: string
+    data?: any
+  }>
+  emails?: Array<{
+    id: number
+    subject: string
+    content?: string
+  }>
+  pages?: Array<{
+    id: number
+    title: string
+    content?: string
+  }>
+  forms?: Array<{
+    id: number
+    name: string
+    description?: string
+  }>
+};
+
 // Helper function to determine the most likely endpoint based on the query
 function determineEndpoint(query: string | undefined): MauticEndpoint {
   if (!query || typeof query !== 'string') {
