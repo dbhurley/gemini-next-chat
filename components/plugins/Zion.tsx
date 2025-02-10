@@ -22,17 +22,19 @@ type Props = {
     contacts?: Contact[]
     lists?: Segment[]
   }
+  page: number
+  limit: number
 }
 
 function Zion(props: Props) {
-  const { data } = props
+  const { data, page, limit } = props
   const { t } = useTranslation()
 
   // Always render the container, even without data
   return (
     <div className="chat-content overflow-x-auto scroll-smooth">
       <div className="flex gap-1.5 max-md:gap-1">
-        {data?.contacts?.slice(0, 2).map((contact, idx) => (
+        {data?.contacts?.slice((page - 1) * limit, page * limit).map((contact, idx) => (
           <Card key={idx} className="w-40 flex-1 hover:bg-gray-50 hover:dark:bg-gray-900">
             <CardHeader className="p-2">
               <CardTitle className="flex items-center gap-1 truncate text-sm">
@@ -42,7 +44,7 @@ function Zion(props: Props) {
             </CardHeader>
           </Card>
         ))}
-        {data?.lists?.slice(0, 2).map((segment, idx) => (
+        {data?.lists?.slice((page - 1) * limit, page * limit).map((segment, idx) => (
           <Card key={idx} className="w-40 flex-1 hover:bg-gray-50 hover:dark:bg-gray-900">
             <CardHeader className="p-2">
               <CardTitle className="flex items-center gap-1 truncate text-sm">
