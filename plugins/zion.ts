@@ -1,55 +1,3 @@
-type Props = {
-  endpoint: string
-  query?: string
-}
-
-type ZionResponse = {
-  contacts?: Array<{
-    id: number
-    email: string
-    firstname?: string
-    lastname?: string
-  }>
-  lists?: Array<{
-    id: number
-    name: string
-    description?: string
-  }>
-  campaigns?: Array<{
-    id: number
-    name: string
-    description?: string
-    isPublished?: boolean
-  }>
-  assets?: Array<{
-    id: number
-    title: string
-    description?: string
-    downloadCount?: number
-  }>
-  reports?: Array<{
-    id: number
-    name: string
-    description?: string
-    data?: any
-  }>
-  emails?: Array<{
-    id: number
-    subject: string
-    content?: string
-  }>
-  pages?: Array<{
-    id: number
-    title: string
-    content?: string
-  }>
-  forms?: Array<{
-    id: number
-    name: string
-    description?: string
-  }>
-}
-
 export const openapi: OpenAPIDocument = {
   components: {
     schemas: {
@@ -257,6 +205,25 @@ export const openapi: OpenAPIDocument = {
               type: 'string'
             },
             description: 'Natural language query to determine the endpoint and parameters'
+          },
+          {
+            name: 'limit',
+            in: 'query',
+            schema: {
+              type: 'integer',
+              minimum: 1,
+              maximum: 100
+            },
+            description: 'Maximum number of results to return'
+          },
+          {
+            name: 'offset',
+            in: 'query',
+            schema: {
+              type: 'integer',
+              minimum: 0
+            },
+            description: 'Offset for pagination'
           }
         ],
         responses: {
@@ -391,7 +358,7 @@ function determineEndpoint(query: string | undefined): MauticEndpoint {
   return (bestMatch.score > 0 ? bestMatch.endpoint : 'contacts') as MauticEndpoint;
 }
 
-export async function handle({ query }: { query?: string }): Promise<ZionResponse> {
+export async function handle({ query, limit, offset }: { query?: string, limit?: number, offset?: number }): Promise<ZionResponse> {
   const apiUrl = process.env.NEXT_PUBLIC_ZION_API_URL
   const apiUser = process.env.NEXT_PUBLIC_ZION_API_USER
   const apiPassword = process.env.NEXT_PUBLIC_ZION_API_PASSWORD
@@ -410,6 +377,12 @@ export async function handle({ query }: { query?: string }): Promise<ZionRespons
   const queryParams = new URLSearchParams();
   if (query) {
     queryParams.append(endpointConfig.searchParams.search, query);
+  }
+  if (limit) {
+    queryParams.append('limit', limit.toString());
+  }
+  if (offset) {
+    queryParams.append('offset', offset.toString());
   }
   
   const url = `${apiUrl}/api/${endpointConfig.path}${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
