@@ -407,7 +407,7 @@ export type MollyResponse = {
   }>
 };
 
-async function handle({ query, limit, offset }: { query?: string, limit?: number, offset?: number }): Promise<MollyResponse> {
+export async function handle({ query, limit, offset }: { query?: string, limit?: number, offset?: number }): Promise<MollyResponse> {
   const endpoint = determineEndpoint(query)
   
   if (!endpoint) {
