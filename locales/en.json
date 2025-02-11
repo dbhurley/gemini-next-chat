@@ -81,8 +81,7 @@
   "realTimeWeather": "Weather",
   "currentTime": "Current Time",
   "arxivSearch": "Arxiv Search",
-  "zion": "Zion",
-  "Zion": "Zion",
+  "Molly": "Molly",
   "loadPlugin": "Load enhancement",
   "addPlugin": "Add enhancement",
   "uninstall": "Uninstall",
@@ -139,11 +138,11 @@
       "dialogTitle": "Search Results",
       "dialogDescription": "The data comes from the Arxiv.org."
     },
-    "zion": {
+    "molly": {
       "totalDataSources": "data sources",
       "viewAll": "View All",
       "dialogTitle": "Search Results",
-      "dialogDescription": "The data comes from the Zion."
+      "dialogDescription": "The data comes from the Molly."
     }
   },
   "conversationList": "Previous conversations",

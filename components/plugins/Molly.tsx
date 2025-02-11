@@ -27,7 +27,7 @@ type Props = {
   search?: string
 }
 
-function Zion(props: Props) {
+function Molly(props: Props) {
   const { data, page, limit, search } = props
   const { t } = useTranslation()
 
@@ -77,4 +77,4 @@ function Zion(props: Props) {
   )
 }
 
-export default memo(Zion)
+export default memo(Molly)

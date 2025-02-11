@@ -12,7 +12,7 @@ import './globals.css'
 const HEAD_SCRIPTS = process.env.HEAD_SCRIPTS as string
 
 const APP_NAME = 'Molly'
-const APP_DEFAULT_TITLE = 'Molly | A Zion Associate'
+const APP_DEFAULT_TITLE = 'Molly | Your Associate'
 const APP_TITLE_TEMPLATE = '%s - with Molly'
 const APP_DESCRIPTION =
   'Deploy your Molly.'

@@ -4,7 +4,7 @@ import * as unsplash from './unsplash'
 import * as time from './time'
 import * as weather from './weather'
 import * as search from './search'
-import * as zion from './zion'
+import * as molly from './molly'
 
 export const officialPlugins: Record<string, OpenAPIDocument> = {
   OfficialReader: reader.openapi,
@@ -13,7 +13,7 @@ export const officialPlugins: Record<string, OpenAPIDocument> = {
   OfficialTime: time.openapi,
   OfficialWeather: weather.openapi,
   OfficialSearch: search.openapi,
-  OfficialZion: zion.openapi
+  OfficialMolly: molly.openapi
 }
 
 export const OFFICAL_PLUGINS = {
@@ -23,7 +23,7 @@ export const OFFICAL_PLUGINS = {
   TIME: 'OfficialTime',
   UNSPLASH: 'OfficialUnsplash',
   ARXIV: 'OfficialArxiv',
-  ZION: 'OfficialZion'
+  ZION: 'OfficialMolly'
 }
 
 export function pluginHandle(name: string, options: any) {
@@ -40,8 +40,8 @@ export function pluginHandle(name: string, options: any) {
       return weather.handle(options)
     case 'OfficialSearch':
       return search.handle(options)
-    case 'OfficialZion':
-      return zion.handle(options)
+    case 'OfficialMolly':
+      return molly.handle(options)
     default:
       throw new Error('Unable to find plugin')
   }

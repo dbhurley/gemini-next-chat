@@ -1,8 +1,8 @@
 {
   "name": "Molly",
   "short_name": "Molly",
-  "description": "Connect with Molly, a Zion Associate.",
-  "id": "molly-model-zion",
+  "description": "Connect with Molly, your sssociate.",
+  "id": "molly-model-app",
   "scope": ".",
   "icons": [
     {
